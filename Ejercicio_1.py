@@ -5,26 +5,23 @@ from datetime import datetime
 
 
 # Ruta de la carpeta de archivos
-ruta_raw = "./raw"
+ruta_raw = "raw"
 
 # Ruta de la carpeta resultado
-ruta_transform = './transform_data'
-
-# Obtener la fecha de ejecución
-now = datetime.now()
-fecha_de_ejecucion = now.strftime('%Y-%m-%d')
-#print(fecha_de_ejecucion)
+ruta_transform = 'transform_data'
 
 # Función de unificar archivos y consolidar tipos de datos
 def consolidar_datos(ruta_raw, ruta_transform):
 
     # Obtener todos los archivos en la carpeta raw
-    archivos = glob.glob(ruta_raw + "/*.csv") + glob.glob(ruta_raw + "/*.json") + glob.glob(ruta_raw + "/*.xml")
+    archivos = glob.glob(ruta_raw + "/*")
 
     if not archivos:
         print("No se encontraron archivos para procesar")
         return
 
+    # Obtener la fecha de ejecución
+    fecha_de_ejecucion = datetime.now().strftime('%Y-%m-%d')
     df_consolidado = pd.DataFrame()
 
     # Iterar sobre cada archivo y leer datos
@@ -38,7 +35,7 @@ def consolidar_datos(ruta_raw, ruta_transform):
             elif extension == 'xml':
                 df = pd.read_xml(archivo)
             else:
-                print(f'Formato no soprtado: {archivo}')
+                print(f'Formato no soportado: {archivo}')
                 continue
         except Exception as e:
             print(f"Error al procesar {archivo}: {e}")
